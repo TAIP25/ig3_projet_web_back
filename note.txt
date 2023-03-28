@@ -1,0 +1,4 @@
+npm init
+npm install <module>
+npm run <script>
+

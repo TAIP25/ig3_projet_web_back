@@ -1,0 +1,27 @@
+{
+  "name": "ig3_projet_web_back",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "dev": "nodemon server.js",
+    "start": "node server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TAIP25/ig3_projet_web_back.git"
+  },
+  "author": "TAIP25",
+  "license": "GPL-3.0-or-later",
+  "bugs": {
+    "url": "https://github.com/TAIP25/ig3_projet_web_back/issues"
+  },
+  "homepage": "https://github.com/TAIP25/ig3_projet_web_back#readme",
+  "dependencies": {
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.22"
+  }
+}
