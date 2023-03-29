@@ -12,18 +12,50 @@ const PORT = 2534
 // Créer une application express
 const app = express()
 
-// Renvoie à la requete GET de la racine le resultat "Hello World!"
-app.get("/", (req, res) => {
-    res.send("Hello World!")
+// Ouvre le serveur sur le port 2534
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}: http://localhost:${PORT}`)
 })
 
+// Renvoie à la requete GET de la racine le resultat "Hello World!"
+app.get("/", (req, res) => {
+    res.send("Page d'accueil, redirige sur /authentification (peut etre mise en place de cookie + tard)")
+})
+
+app.get("/authentification/login", (req, res) => {
+    res.send("Page de connection")
+})
+
+app.get("/authentification/signin", (req, res) => {
+    res.send("Page de creation de compte")
+})
+
+app.get("/game", (req, res) => {
+    res.send("Page du jeu")
+})
+
+app.get("/game/statistique", (req, res) => {
+    res.send("Page des statistiques")
+})
+
+app.get("/game/clan/recherche", (req, res) => {
+    res.send("Page des recherche de clan")
+})
+
+app.get("/game/clan/:id/info", (req, res) => {
+    res.send("Page des info d'un clan")
+})
+
+app.get("/game/amelioration", (req, res) => {
+    res.send("Page des amelioration")
+})
 
 // Renvoie à la requete GET de la branche /Test le resultat "Ceci est un test" avec la valeur de la variable "value"
-app.get("/Test", (req, res) => {
+app.get("/test", (req, res) => {
     res.send("Ceci est un test, la valeur de la variable est: " + req.query.value)
 })
 
-// Ouvre le serveur sur le port 2534
-app.listen(2534, () => {
-    console.log("Server is running on port 2534: http://localhost:2534")
+app.get("/html", (req, res) => {
+    res.sendFile(__dirname + "/test.html");
 })
+
