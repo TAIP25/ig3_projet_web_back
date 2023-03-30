@@ -4,4 +4,13 @@ npm run <script>
 
 models:
 En option remplacer UserClan et Clan par Friend ou Follower
-User, UserGame, UserClan, Clan, UserStats, Stats, UserSuccess, Sucess
+User,
+UserGame,
+UserClan,
+Clan,
+UserStats,
+Stats,
+UserSuccess,
+Sucess,
+Plot,
+Crop

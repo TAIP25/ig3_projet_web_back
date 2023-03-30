@@ -3,51 +3,66 @@ const Sequelize = require('sequelize');
 
 const db = require('../database/sequelize')
 
-const UserGame = db.define('UserGame', {
-    userGameId: {
+const Plot = db.define('Plot', {
+    plotId: {
         type: Sequelize.INTEGER,
+        autoIncrement: true,
         primaryKey: true,
-        reference: {
+    },
+    userId: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        unique: true,
+        references: {
             model: User,
             key: 'userId'
         }
     },
-    level: {
+    plotWidth: {
         type: Sequelize.INTEGER,
         allowNull: false,
         unique: false,
         defaultValue: 1,
         validate: {
-            min: 1,
-            max: 10
+            min: 1
         }
     },
-    experience: {
+    plotHeight: {
         type: Sequelize.INTEGER,
         allowNull: false,
         unique: false,
-        defaultValue: 0,
+        defaultValue: 1,
         validate: {
-            min: 0,
-            max: 100
+            min: 1
         }
     },
-    gold: {
-        type: Sequelize.BIGINT,
+    plotHaste: {
+        type: Sequelize.FLOAT,
         allowNull: false,
         unique: false,
-        defaultValue: 0,
+        defaultValue: 1,
         validate: {
-            min: 0
+            min: 1
         }
     },
-    gems: {
-        type: Sequelize.BIGINT,
+    plotEfficiency: {
+        type: Sequelize.FLOAT,
         allowNull: false,
         unique: false,
-        defaultValue: 0,
+        defaultValue: 1,
         validate: {
-            min: 0
+            min: 1
+        }
+    },
+    plotBoost: {
+        type: Sequelize.FLOAT,
+        allowNull: false,
+        unique: false,
+        defaultValue: 1,
+        validate: {
+            min: 1
         }
     }
 });
+
+

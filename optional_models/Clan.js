@@ -3,7 +3,7 @@ const Sequelize = require('sequelize');
 
 const db = require('../database/sequelize')
 
-const User = db.define('Clan', {
+const Clan = db.define('Clan', {
     clanId: {
         type: Sequelize.INTEGER,
         autoIncrement: true,

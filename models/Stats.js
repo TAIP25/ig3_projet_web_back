@@ -3,7 +3,7 @@ const Sequelize = require('sequelize');
 
 const db = require('../database/sequelize')
 
-const User = db.define('Stats', {
+const Stats = db.define('Stats', {
     statsId: {
         type: Sequelize.INTEGER,
         autoIncrement: true,
@@ -17,7 +17,8 @@ const User = db.define('Stats', {
     statsType: {
         type: Sequelize.STRING,
         allowNull: false,
-        unique: false
+        unique: false,
+        
     },
     statsDescription: {
         type: Sequelize.STRING,
