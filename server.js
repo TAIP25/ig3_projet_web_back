@@ -12,6 +12,29 @@ const PORT = 2534
 // Créer une application express
 const app = express()
 
+// Créer une sous-application express
+const subAppAuth = express()
+
+// Créer un route pour la sous-application
+subAppAuth.get("/", (req, res) => {
+    res.status(200).send("Ceci est la sous-application qui gère l'authentification")
+})
+
+// Utiliser la sous-application pour la route /subapp
+app.use("/auth", subAppAuth)
+
+// Middleware A
+app.use((req, res, next) => {
+    console.log('Middleware A');
+    next();
+});
+
+// Middleware B
+app.use((req, res, next) => {
+    console.log('Middleware B');
+    next();
+});
+
 // Ouvre le serveur sur le port 2534
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}: http://localhost:${PORT}`)
