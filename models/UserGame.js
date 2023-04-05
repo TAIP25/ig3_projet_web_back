@@ -12,25 +12,37 @@ const UserGame = db.define('UserGame', {
             key: 'userId'
         }
     },
+    username: {
+        type: Sequelize.STRING,
+        allowNull: false,
+        unique: false /*,
+        // Vérifier ce paramètre avant de l'activer
+        validate: {
+            len: [3, 20]
+        }
+        */
+    },
     level: {
         type: Sequelize.INTEGER,
         allowNull: false,
         unique: false,
-        defaultValue: 1,
+        defaultValue: 1 /*,
         validate: {
             min: 1,
             max: 10
         }
+        */
     },
     experience: {
         type: Sequelize.INTEGER,
         allowNull: false,
         unique: false,
-        defaultValue: 0,
+        defaultValue: 0 /*,
         validate: {
             min: 0,
             max: 100
         }
+        */
     },
     gold: {
         type: Sequelize.BIGINT,

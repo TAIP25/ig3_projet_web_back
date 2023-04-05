@@ -25,10 +25,10 @@ Ce projet est un projet seul. Il s'agit d'un projet en 3ème année de Polytech 
 erDiagram
     
     User one or zero -- 1 UserGame: "plays"
-    Stats 0+ -- 0+ UserStats: "relates to"
+    Stat 0+ -- 0+ UserStat: "relates to"
     UserGame 1 -- 1 Plot: "owns"
     CropType 0+ -- 1 Crop: "has"
-    UserGame 0+ -- 0+ UserStats: "has"
+    UserGame 0+ -- 0+ UserStat: "has"
     Plot 0+ -- 1 Crop: "contains"
     UpgradeType 0+ -- 1 Upgrade: "relates to"
     UserGame 0+ -- 1 UserUpgrade: "has"
@@ -37,42 +37,38 @@ erDiagram
 
     User {
         int userId
-        string password 
         string email
+        string password 
+        bool isAdmin
         date userCreatedAt
         date userUpdatedAt
         date userDeletedAt
-        bool isAdmin
     }
     UserGame {
         int userGameId
-        int userPlotId
+        string username
         int level
-        int experience
+        bigint experience
         bigint gold
         bigint gems
     }
-    UserStats {
-        int userStatsId
-        int statsId
+    UserStat {
+        int userStatId
+        int statId
         int userId
-        bigint statsValue
+        bigint statValue
     }
-    Stats {
-        int statsId
-        string statsName
-        int statsTypeId
-        string statsDescription
-        date statsCreatedAt
-        date statsUpdatedAt
-        date statsDeletedAt
+    Stat {
+        int statId
+        string statName
+        int statTypeId
+        string statDescription
     }
     Plot {
         int plotId
-        int userId
         int plotWidth
         int plotHeight
-        float plotHaste
+        float plotSpeed
         float plotEfficiency
         float plotBoost
     }
@@ -82,31 +78,35 @@ erDiagram
         int cropLocX
         int cropLocY
         string cropType
-        int cropStage
-        int cropTime
     }
     CropType {
         int cropTypeId
         string cropTypeName
+        int statLevelRequired
         int cropTypePrice
+        int cropTypeEarning
+        int cropTypeExperience
         int cropTypeTime
-    }
-    Upgrade {
-        int upgradeId
-        int upgradeTypeId
-        int upgradePrice
-        int upgradeGrade
-        string upgradeName
-        string upgradeDescription
-    }
-    UpgradeType {
-        int upgradeTypeId
-        string upgradeTypeName
+        int cropTypeDescription
     }
     UserUpgrade {
         int userUpgradeId
         int userId
         int upgradeId
+    }
+    Upgrade {
+        int upgradeId
+        int upgradeTypeId
+        string upgradeName
+        int upgradeLevelRequired
+        int upgradeGrade
+        int upgradePrice
+        string upgradeDescription
+    }
+    UpgradeType {
+        int upgradeTypeId
+        string upgradeTypeName
+        bool upgradePriceType
     }
 ```
 

@@ -1,5 +1,5 @@
-const Sequelize = require('sequelize');
-//const validator = require('validator');
+const Sequelize = require('sequelize')
+//const validator = require('validator')
 
 const db = require('../database/sequelize')
 
@@ -9,23 +9,32 @@ const User = db.define('User', {
         autoIncrement: true,
         primaryKey: true
     },
-    password: {
-        type: Sequelize.STRING,
-        allowNull: false,
-        unique: false
-        // Est ce le hashage du mot de passe ou le mot de passe en clair ?
-        /*validate: {
-            len: [8, 20]
-            isHashed: true
-        }*/
-    },
     email: {
         type: Sequelize.STRING,
         allowNull: false,
-        unique: true,
+        unique: true /*,
+        // Vérifier ce paramètre avant de l'activer
         validate: {
             isEmail: true
         }
+        */
+    },
+    password: {
+        type: Sequelize.STRING,
+        allowNull: false,
+        unique: false /*,
+        // Est ce le hashage du mot de passe ou le mot de passe en clair ?
+        validate: {
+            len: [8, 20]
+            isHashed: true
+        }
+        */
+    },
+    isAdmin: {
+        type: Sequelize.BOOLEAN,
+        allowNull: false,
+        unique: false,
+        defaultValue: false
     },
     userCreatedAt: {
         type: Sequelize.DATE,
@@ -44,11 +53,8 @@ const User = db.define('User', {
         allowNull: true,
         unique: false,
         defaultValue: null
-    },
-    isAdmin: {
-        type: Sequelize.BOOLEAN,
-        allowNull: false,
-        unique: false,
-        defaultValue: false
     }
-});
+}, {
+    timestamps: false,
+    freezeTableName: true,
+})
