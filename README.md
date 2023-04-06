@@ -55,7 +55,7 @@ erDiagram
     UserStat {
         int userStatId
         int statId
-        int userId
+        int userGameId
         bigint statValue
     }
     Stat {

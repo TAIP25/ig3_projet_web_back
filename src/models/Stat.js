@@ -1,9 +1,9 @@
 const Sequelize = require('sequelize');
 //const validator = require('validator');
 
-const db = require('../database/sequelize')
+const db = require('../../../database/sequelize')
 
-const Stats = db.define('Stats', {
+const Stat = db.define('Stat', {
     statsId: {
         type: Sequelize.INTEGER,
         autoIncrement: true,
@@ -47,4 +47,6 @@ const Stats = db.define('Stats', {
         unique: false,
         defaultValue: null
     }
-});
+})
+
+module.exports = Stat

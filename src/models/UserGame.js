@@ -1,7 +1,7 @@
-const Sequelize = require('sequelize');
-//const validator = require('validator');
+const Sequelize = require('sequelize')
+//const validator = require('validator')
 
-const db = require('../database/sequelize')
+const db = require('../../../database/sequelize')
 
 const UserGame = db.define('UserGame', {
     userGameId: {
@@ -39,8 +39,7 @@ const UserGame = db.define('UserGame', {
         unique: false,
         defaultValue: 0 /*,
         validate: {
-            min: 0,
-            max: 100
+            min: 0
         }
         */
     },
@@ -48,18 +47,23 @@ const UserGame = db.define('UserGame', {
         type: Sequelize.BIGINT,
         allowNull: false,
         unique: false,
-        defaultValue: 0,
+        defaultValue: 0 /*,
         validate: {
             min: 0
         }
+        */
     },
     gems: {
         type: Sequelize.BIGINT,
         allowNull: false,
         unique: false,
-        defaultValue: 0,
+        defaultValue: 0 /*,
         validate: {
             min: 0
         }
+        */
     }
-});
+}, {
+    timestamps: false,
+    freezeTableName: true
+})

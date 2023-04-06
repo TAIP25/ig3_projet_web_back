@@ -63,6 +63,5 @@ const Plot = db.define('Plot', {
             min: 1
         }
     }
-});
-
+})
 

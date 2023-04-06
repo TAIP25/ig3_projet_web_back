@@ -1,9 +1,11 @@
-const Sequelize = require('sequelize');
-//const validator = require('validator');
+const Sequelize = require('sequelize')
+//const validator = require('validator')
 
-const db = require('../database/sequelize')
+const db = require('../../../database/sequelize')
+const User = require('./User')
+const Stats = require('./Stat')
 
-const UserStats = db.define('UserStats', {
+const UserStat = db.define('UserStat', {
     userStatsId: {
         type: Sequelize.INTEGER,
         autoIncrement: true,
@@ -14,17 +16,17 @@ const UserStats = db.define('UserStats', {
         allowNull: false,
         unique: false,
         reference: {
-            model: Stats,
+            model: Stat,
             key: 'statsId'
         }
     },
-    userId: {
+    userGameId: {
         type: Sequelize.INTEGER,
         autoIncrement: true,
         primaryKey: true,
         reference: {
-            model: User,
-            key: 'userId'
+            model: UserGame,
+            key: 'userGameId'
         }
     },
     statsValue: {
@@ -36,4 +38,15 @@ const UserStats = db.define('UserStats', {
             min: 0
         }
     }
-});
+}, {
+    timestamps: false,
+    freezeTableName: true
+})
+
+UserGame.hasMany(UserStat, {foreignKey: 'userGameId'})
+Stat.hasMany(UserStat, {foreignKey: 'statsId'})
+
+module.exports = UserStat
+
+
+
