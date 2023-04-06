@@ -1,9 +1,8 @@
-const Sequelize = require('sequelize');
-//const validator = require('validator');
+const Sequelize = require('sequelize')
 
-const db = require('../database/sequelize')
+const sequelize = require('../database/sequelize')
 
-const Crop = db.define('Crop', {
+const Crop = sequelize.define('Crop', {
     cropId: {
         type: Sequelize.INTEGER,
         autoIncrement: true,
@@ -48,4 +47,6 @@ const Crop = db.define('Crop', {
             max: 100
         }
     }
-});
+})
+
+module.exports = Crop

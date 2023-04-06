@@ -1,52 +1,35 @@
-const Sequelize = require('sequelize');
-//const validator = require('validator');
+const Sequelize = require('sequelize')
 
-const db = require('../../../database/sequelize')
+const sequelize = require('../database/sequelize')
 
-const Stat = db.define('Stat', {
-    statsId: {
+const Stat = sequelize.define('Stat', {
+    statId: {
         type: Sequelize.INTEGER,
         autoIncrement: true,
-        primaryKey: true
+        primaryKey: true,
+        references: {
+            model: 'UserStat',
+            key: 'statId'
+        }
     },
-    statsName: {
+    statName: {
         type: Sequelize.STRING,
         allowNull: false,
         unique: true
     },
-    statsType: {
+    statDescription: {
         type: Sequelize.STRING,
         allowNull: false,
         unique: false,
-        
-    },
-    statsDescription: {
-        type: Sequelize.STRING,
-        allowNull: false,
-        unique: false,
-        defaultValue: "No description",
+        defaultValue: "No description" /*,
         validate: {
             len: [0, 100]
         }
-    },
-    statsCreatedAt: {
-        type: Sequelize.DATE,
-        allowNull: false,
-        unique: false,
-        defaultValue: Sequelize.literal('NOW()')
-    },
-    statsUpdatedAt: {
-        type: Sequelize.DATE,
-        allowNull: false,
-        unique: false,
-        defaultValue: Sequelize.literal('NOW()')
-    },
-    statsDeletedAt: {
-        type: Sequelize.DATE,
-        allowNull: true,
-        unique: false,
-        defaultValue: null
+        */
     }
+}, {
+    timestamps: false,
+    freezeTableName: true
 })
 
 module.exports = Stat

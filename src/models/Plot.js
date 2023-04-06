@@ -1,9 +1,8 @@
-const Sequelize = require('sequelize');
-//const validator = require('validator');
+const Sequelize = require('sequelize')
 
-const db = require('../database/sequelize')
+const sequelize = require('../database/sequelize')
 
-const Plot = db.define('Plot', {
+const Plot = sequelize.define('Plot', {
     plotId: {
         type: Sequelize.INTEGER,
         autoIncrement: true,
@@ -64,4 +63,6 @@ const Plot = db.define('Plot', {
         }
     }
 })
+
+module.exports = Plot
 

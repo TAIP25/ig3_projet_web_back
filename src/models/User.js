@@ -1,13 +1,16 @@
 const Sequelize = require('sequelize')
-//const validator = require('validator')
 
-const db = require('../database/sequelize')
+const sequelize = require('../database/sequelize')
 
-const User = db.define('User', {
+const User = sequelize.define('User', {
     userId: {
         type: Sequelize.INTEGER,
         autoIncrement: true,
-        primaryKey: true
+        primaryKey: true,
+        references: {
+            model: 'UserGame',
+            key: 'userGameId'
+        }
     },
     email: {
         type: Sequelize.STRING,

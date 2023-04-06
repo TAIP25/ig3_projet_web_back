@@ -1,14 +1,13 @@
 const Sequelize = require('sequelize')
-//const validator = require('validator')
 
-const db = require('../../../database/sequelize')
+const sequelize = require('../database/sequelize')
 
-const UserGame = db.define('UserGame', {
+const UserGame = sequelize.define('UserGame', {
     userGameId: {
         type: Sequelize.INTEGER,
         primaryKey: true,
-        reference: {
-            model: User,
+        references: {
+            model: 'User',
             key: 'userId'
         }
     },
@@ -53,7 +52,7 @@ const UserGame = db.define('UserGame', {
         }
         */
     },
-    gems: {
+    gem: {
         type: Sequelize.BIGINT,
         allowNull: false,
         unique: false,
@@ -67,3 +66,5 @@ const UserGame = db.define('UserGame', {
     timestamps: false,
     freezeTableName: true
 })
+
+module.exports = UserGame

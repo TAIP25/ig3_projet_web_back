@@ -25,10 +25,10 @@ Ce projet est un projet seul. Il s'agit d'un projet en 3ème année de Polytech 
 erDiagram
     
     User one or zero -- 1 UserGame: "plays"
-    Stat 0+ -- 0+ UserStat: "relates to"
+    Stat 0+ -- 1 UserStat: "relates to"
     UserGame 1 -- 1 Plot: "owns"
     CropType 0+ -- 1 Crop: "has"
-    UserGame 0+ -- 0+ UserStat: "has"
+    UserGame 0+ -- 1 UserStat: "has"
     Plot 0+ -- 1 Crop: "contains"
     UpgradeType 0+ -- 1 Upgrade: "relates to"
     UserGame 0+ -- 1 UserUpgrade: "has"
@@ -50,7 +50,7 @@ erDiagram
         int level
         bigint experience
         bigint gold
-        bigint gems
+        bigint gem
     }
     UserStat {
         int userStatId
@@ -61,7 +61,6 @@ erDiagram
     Stat {
         int statId
         string statName
-        int statTypeId
         string statDescription
     }
     Plot {
