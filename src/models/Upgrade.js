@@ -2,69 +2,65 @@ const Sequelize = require('sequelize')
 
 const sequelize = require('../database/sequelize')
 
-const UserGame = sequelize.define('UserGame', {
-    userGameId: {
+const Upgrade = sequelize.define('Upgrade', {
+    upgradeId: {
         type: Sequelize.INTEGER,
+        autoIncrement: true,
         primaryKey: true,
         references: {
-            model: 'User',
-            key: 'userId'
+            model: 'UserUpgrade',
+            key: 'upgradeId'
         }
     },
-    username: {
+    upgradeTypeId: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        unique: true,
+        references: {
+            model: 'UpgradeType',
+            key: 'upgradeTypeId'
+        }
+    },
+    upgradeName: {
         type: Sequelize.STRING,
         allowNull: false,
-        unique: false /*,
-        // Vérifier ce paramètre avant de l'activer
-        validate: {
-            len: [3, 20]
-        }
-        */
+        unique: true
     },
-    level: {
+    upgradeLevelRequired: {
         type: Sequelize.INTEGER,
         allowNull: false,
         unique: false,
-        defaultValue: 1 /*,
         validate: {
-            min: 1,
-            max: 10
+            min: 0
         }
-        */
     },
-    experience: {
+    upgradeGrade: {
         type: Sequelize.INTEGER,
         allowNull: false,
         unique: false,
-        defaultValue: 0 /*,
         validate: {
             min: 0
         }
-        */
     },
-    gold: {
-        type: Sequelize.BIGINT,
+    upgradePrice: {
+        type: Sequelize.INTEGER,
         allowNull: false,
         unique: false,
-        defaultValue: 0 /*,
         validate: {
             min: 0
         }
-        */
     },
-    diamond: {
-        type: Sequelize.BIGINT,
+    upgradeDescription: {
+        type: Sequelize.STRING,
         allowNull: false,
         unique: false,
-        defaultValue: 0 /*,
         validate: {
-            min: 0
+            len: [0, 255]
         }
-        */
     }
 }, {
     timestamps: false,
     freezeTableName: true
 })
 
-module.exports = UserGame
+module.exports = Upgrade

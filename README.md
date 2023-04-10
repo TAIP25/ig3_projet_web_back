@@ -50,7 +50,7 @@ erDiagram
         int level
         bigint experience
         bigint gold
-        bigint gem
+        bigint diamond
     }
     UserStat {
         int userStatId
@@ -74,14 +74,15 @@ erDiagram
     Crop {
         int cropId
         int plotId
+        int cropTypeId
         int cropLocX
         int cropLocY
-        string cropType
+        
     }
     CropType {
         int cropTypeId
         string cropTypeName
-        int statLevelRequired
+        int cropTypeLevelRequired
         int cropTypePrice
         int cropTypeEarning
         int cropTypeExperience
@@ -90,7 +91,7 @@ erDiagram
     }
     UserUpgrade {
         int userUpgradeId
-        int userId
+        int userGameId
         int upgradeId
     }
     Upgrade {

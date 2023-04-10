@@ -7,14 +7,9 @@ const Plot = sequelize.define('Plot', {
         type: Sequelize.INTEGER,
         autoIncrement: true,
         primaryKey: true,
-    },
-    userId: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-        unique: true,
         references: {
-            model: User,
-            key: 'userId'
+            model: 'UserGame',
+            key: 'userGameId'
         }
     },
     plotWidth: {
@@ -35,7 +30,7 @@ const Plot = sequelize.define('Plot', {
             min: 1
         }
     },
-    plotHaste: {
+    plotSpeed: {
         type: Sequelize.FLOAT,
         allowNull: false,
         unique: false,
@@ -62,6 +57,9 @@ const Plot = sequelize.define('Plot', {
             min: 1
         }
     }
+}, {
+    timestamps: false,
+    freezeTableName: true
 })
 
 module.exports = Plot

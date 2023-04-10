@@ -9,18 +9,16 @@ const UserUpgrade = require('./UserUpgrade')
 const Upgrade = require('./Upgrade')
 const UpgradeType = require('./UpgradeType')
 
-//Probleme foreign key
 //User one or zero -- 1 UserGame: "plays"
-UserGame.belongsTo(User, { foreignKey: 'userId' })
+UserGame.belongsTo(User, { foreignKey: 'userGameId' })
 User.hasOne(UserGame, { foreignKey: 'userId' })
 
 //Stat 0+ -- 1 UserStat: "relates to"
 UserStat.belongsTo(Stat, { foreignKey: 'statId' })
 Stat.hasMany(UserStat, { foreignKey: 'statId' })
 
-//Probleme foreign key
 //UserGame 1 -- 1 Plot: "owns"
-Plot.belongsTo(UserGame, { foreignKey: 'userGameId' })
+Plot.belongsTo(UserGame, { foreignKey: 'plotId' })
 UserGame.hasOne(Plot, { foreignKey: 'userGameId' })
 
 //CropType 0+ -- 1 Crop: "has"
@@ -46,3 +44,16 @@ UserGame.hasMany(UserUpgrade, { foreignKey: 'userGameId' })
 //Upgrade 0+ -- 1 UserUpgrade: "has"
 UserUpgrade.belongsTo(Upgrade, { foreignKey: 'upgradeId' })
 Upgrade.hasMany(UserUpgrade, { foreignKey: 'upgradeId' })
+
+module.exports = {
+    User,
+    UserGame,
+    UserStat,
+    Stat,
+    Plot,
+    Crop,
+    CropType,
+    UserUpgrade,
+    Upgrade,
+    UpgradeType
+}

@@ -8,6 +8,23 @@ const Crop = sequelize.define('Crop', {
         autoIncrement: true,
         primaryKey: true
     },
+    plotId: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+            model: 'Plot',
+            key: 'plotId'
+        }
+    },
+    cropTypeId: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        unique: false,
+        references: {
+            model: 'CropType',
+            key: 'cropTypeId'
+        }
+    },
     cropLocX: {
         type: Sequelize.INTEGER,
         allowNull: false,
@@ -21,32 +38,10 @@ const Crop = sequelize.define('Crop', {
         validate: {
             min: 0
         }
-    },
-    cropType: {
-        type: Sequelize.STRING,
-        allowNull: false,
-        references: {
-            model: CropType,
-            key: 'cropTypeName'
-        }
-    },
-    cropStage: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-        validate: {
-            min: 0,
-            max: 3
-        }
-    },
-    cropTime: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-        defaultValue: 0,
-        validate: {
-            min: 1,
-            max: 100
-        }
     }
+}, {
+    timestamps: false,
+    freezeTableName: true
 })
 
 module.exports = Crop

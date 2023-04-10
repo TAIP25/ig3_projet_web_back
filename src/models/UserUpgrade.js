@@ -2,20 +2,11 @@ const Sequelize = require('sequelize')
 
 const sequelize = require('../database/sequelize')
 
-const UserStat = sequelize.define('UserStat', {
-    userStatId: {
+const UserUpgrade = sequelize.define('UserUpgrade', {
+    userUpgradeId: {
         type: Sequelize.INTEGER,
         autoIncrement: true,
         primaryKey: true
-    },
-    statId: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-        unique: false,
-        references: {
-            model: 'Stat',
-            key: 'statId'
-        }
     },
     userGameId: {
         type: Sequelize.INTEGER,
@@ -26,22 +17,18 @@ const UserStat = sequelize.define('UserStat', {
             key: 'userGameId'
         }
     },
-    statValue: {
-        type: Sequelize.BIGINT,
+    upgradeId: {
+        type: Sequelize.INTEGER,
         allowNull: false,
         unique: false,
-        defaultValue: 0/*,
-        validate: {
-            min: 0
+        references: {
+            model: 'Upgrade',
+            key: 'upgradeId'
         }
-        */
     }
 }, {
     timestamps: false,
     freezeTableName: true
 })
 
-module.exports = UserStat
-
-
-
+module.exports = UserUpgrade
