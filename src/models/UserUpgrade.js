@@ -1,15 +1,15 @@
-const Sequelize = require('sequelize')
+const Sequelize = require('sequelize');
 
-const sequelize = require('../database/sequelize')
+const sequelize = require('../database/sequelize');
 
 const UserUpgrade = sequelize.define('UserUpgrade', {
     userUpgradeId: {
-        type: Sequelize.INTEGER,
-        autoIncrement: true,
+        type: Sequelize.UUID,
+        defaultValue: Sequelize.UUIDV4,
         primaryKey: true
     },
     userGameId: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.UUID,
         allowNull: false,
         unique: false,
         references: {
@@ -18,7 +18,7 @@ const UserUpgrade = sequelize.define('UserUpgrade', {
         }
     },
     upgradeId: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.UUID,
         allowNull: false,
         unique: false,
         references: {
@@ -29,6 +29,6 @@ const UserUpgrade = sequelize.define('UserUpgrade', {
 }, {
     timestamps: false,
     freezeTableName: true
-})
+});
 
-module.exports = UserUpgrade
+module.exports = UserUpgrade;

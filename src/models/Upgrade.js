@@ -1,11 +1,11 @@
-const Sequelize = require('sequelize')
+const Sequelize = require('sequelize');
 
-const sequelize = require('../database/sequelize')
+const sequelize = require('../database/sequelize');
 
 const Upgrade = sequelize.define('Upgrade', {
     upgradeId: {
-        type: Sequelize.INTEGER,
-        autoIncrement: true,
+        type: Sequelize.UUID,
+        defaultValue: Sequelize.UUIDV4,
         primaryKey: true,
         references: {
             model: 'UserUpgrade',
@@ -13,7 +13,7 @@ const Upgrade = sequelize.define('Upgrade', {
         }
     },
     upgradeTypeId: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.UUID,
         allowNull: false,
         unique: true,
         references: {
@@ -29,38 +29,26 @@ const Upgrade = sequelize.define('Upgrade', {
     upgradeLevelRequired: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        unique: false,
-        validate: {
-            min: 0
-        }
+        unique: false
     },
     upgradeGrade: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        unique: false,
-        validate: {
-            min: 0
-        }
+        unique: false
     },
     upgradePrice: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        unique: false,
-        validate: {
-            min: 0
-        }
+        unique: false
     },
     upgradeDescription: {
         type: Sequelize.STRING,
         allowNull: false,
-        unique: false,
-        validate: {
-            len: [0, 255]
-        }
+        unique: false
     }
 }, {
     timestamps: false,
     freezeTableName: true
-})
+});
 
-module.exports = Upgrade
+module.exports = Upgrade;

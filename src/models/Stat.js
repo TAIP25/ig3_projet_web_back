@@ -1,11 +1,11 @@
-const Sequelize = require('sequelize')
+const Sequelize = require('sequelize');
 
-const sequelize = require('../database/sequelize')
+const sequelize = require('../database/sequelize');
 
 const Stat = sequelize.define('Stat', {
     statId: {
-        type: Sequelize.INTEGER,
-        autoIncrement: true,
+        type: Sequelize.UUID,
+        defaultValue: Sequelize.UUIDV4,
         primaryKey: true,
         references: {
             model: 'UserStat',
@@ -21,15 +21,11 @@ const Stat = sequelize.define('Stat', {
         type: Sequelize.STRING,
         allowNull: false,
         unique: false,
-        defaultValue: "No description" /*,
-        validate: {
-            len: [0, 100]
-        }
-        */
+        defaultValue: "No description"
     }
 }, {
     timestamps: false,
     freezeTableName: true
-})
+});
 
-module.exports = Stat
+module.exports = Stat;

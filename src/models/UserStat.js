@@ -1,15 +1,15 @@
-const Sequelize = require('sequelize')
+const Sequelize = require('sequelize');
 
-const sequelize = require('../database/sequelize')
+const sequelize = require('../database/sequelize');
 
 const UserStat = sequelize.define('UserStat', {
     userStatId: {
-        type: Sequelize.INTEGER,
-        autoIncrement: true,
+        type: Sequelize.UUID,
+        defaultValue: Sequelize.UUIDV4,
         primaryKey: true
     },
     statId: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.UUID,
         allowNull: false,
         unique: false,
         references: {
@@ -18,7 +18,7 @@ const UserStat = sequelize.define('UserStat', {
         }
     },
     userGameId: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.UUID,
         allowNull: false,
         unique: false,
         references: {
@@ -30,18 +30,14 @@ const UserStat = sequelize.define('UserStat', {
         type: Sequelize.BIGINT,
         allowNull: false,
         unique: false,
-        defaultValue: 0/*,
-        validate: {
-            min: 0
-        }
-        */
+        defaultValue: 0
     }
 }, {
     timestamps: false,
     freezeTableName: true
-})
+});
 
-module.exports = UserStat
+module.exports = UserStat;
 
 
 

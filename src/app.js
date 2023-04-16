@@ -1,29 +1,22 @@
-// Description: This file is the entry point for the application
+// Importe les modules nécessaires
+const express = require('express');
+const helmet = require('helmet');
 
-const express = require('express')
+// Créer une application express
+const app = express();
 
-const helmet = require('helmet')
-
-const authRoutes = require('./routes/authRoutes')
-
-const app = express()
-
-app.use(helmet())
-
-app.use(express.json())
-
-app.use(express.urlencoded({ extended: true }))
+// Ajoute des headers pour sécuriser l'application
+app.use(helmet());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 app.get('/', (req, res) => {
-    let uptimeObj = {uptime: process.uptime()}
-    let uptimeStr = JSON.stringify(uptimeObj)
-    res.status(200).send(uptimeStr)
+    let uptimeObj = { uptime: process.uptime() }
+    let uptimeStr = JSON.stringify(uptimeObj);
+    res.status(200).send(uptimeStr);
 })
 
-app.get('/api', (req, res) => {
-    res.status(200).send('API is running')
-})
+// Utilise les routes pour l'authentification
+app.use('/auth', require('./routes/authRoutes'));
 
-app.use('/auth', authRoutes)
-
-module.exports = app
+module.exports = app;

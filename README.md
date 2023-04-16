@@ -36,77 +36,76 @@ erDiagram
 
 
     User {
-        int userId
-        string email
-        string password 
-        bool isAdmin
-        date userCreatedAt
-        date userUpdatedAt
-        date userDeletedAt
+        UUID userId
+        STRING email
+        STRING password 
+        BOOLEAN isAdmin
+        DATEONLY userCreatedAt
+        DATEONLY userUpdatedAt
     }
     UserGame {
-        int userGameId
-        string username
-        int level
-        bigint experience
-        bigint gold
-        bigint diamond
+        UUID userGameId
+        STRING username
+        INTEGER level
+        BIGINT experience
+        BIGINT gold
+        BIGINT diamond
     }
     UserStat {
-        int userStatId
-        int statId
-        int userGameId
-        bigint statValue
+        UUID userStatId
+        UUID statId
+        UUID userGameId
+        BIGINT statValue
     }
     Stat {
-        int statId
-        string statName
-        string statDescription
+        UUID statId
+        STRING statName
+        STRING statDescription
     }
     Plot {
-        int plotId
-        int plotWidth
-        int plotHeight
-        float plotSpeed
-        float plotEfficiency
-        float plotBoost
+        UUID plotId
+        INTEGER plotWidth
+        INTEGER plotHeight
+        FLOAT plotSpeed
+        FLOAT plotEfficiency
+        FLOAT plotBoost
     }
     Crop {
-        int cropId
-        int plotId
-        int cropTypeId
-        int cropLocX
-        int cropLocY
+        UUID cropId
+        UUID plotId
+        UUID cropTypeId
+        INTEGER cropLocX
+        INTEGER cropLocY
         
     }
     CropType {
-        int cropTypeId
-        string cropTypeName
-        int cropTypeLevelRequired
-        int cropTypePrice
-        int cropTypeEarning
-        int cropTypeExperience
-        int cropTypeTime
-        int cropTypeDescription
+        UUID cropTypeId
+        STRING cropTypeName
+        INTEGER cropTypeLevelRequired
+        INTEGER cropTypePrice
+        INTEGER cropTypeEarning
+        INTEGER cropTypeExperience
+        INTEGER cropTypeTime
+        INTEGER cropTypeDescription
     }
     UserUpgrade {
-        int userUpgradeId
-        int userGameId
-        int upgradeId
+        UUID userUpgradeId
+        UUID userGameId
+        UUID upgradeId
     }
     Upgrade {
-        int upgradeId
-        int upgradeTypeId
-        string upgradeName
-        int upgradeLevelRequired
-        int upgradeGrade
-        int upgradePrice
-        string upgradeDescription
+        UUID upgradeId
+        UUID upgradeTypeId
+        STRING upgradeName
+        INTEGER upgradeLevelRequired
+        INTEGER upgradeGrade
+        INTEGER upgradePrice
+        STRING upgradeDescription
     }
     UpgradeType {
-        int upgradeTypeId
-        string upgradeTypeName
-        bool upgradePriceType
+        UUID upgradeTypeId
+        STRING upgradeTypeName
+        BOOLEAN upgradePriceType
     }
 ```
 

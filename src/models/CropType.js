@@ -1,11 +1,11 @@
-const Sequelize = require('sequelize')
+const Sequelize = require('sequelize');
 
-const sequelize = require('../database/sequelize')
+const sequelize = require('../database/sequelize');
 
 const CropType = sequelize.define('CropType', {
     cropTypeId: {
-        type: Sequelize.INTEGER,
-        autoIncrement: true,
+        type: Sequelize.UUID,
+        defaultValue: Sequelize.UUIDV4,
         primaryKey: true,
         references: {
             model: 'Crop',
@@ -20,56 +20,37 @@ const CropType = sequelize.define('CropType', {
     cropTypeLevelRequired: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        unique: false,
-        validate: {
-            min: 0
-        }
+        unique: false
     },
     cropTypePrice: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        unique: false,
-        validate: {
-            min: 0
-        }
+        unique: false
     },
     cropTypeEarnings: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        unique: false,
-        validate: {
-            min: 0
-        }
+        unique: false
     },
     cropTypeExperience: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        unique: false,
-        validate: {
-            min: 0
-        }
+        unique: false
     },
     cropTypeTime: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        unique: false,
-        validator: {
-            min: 0
-        }
+        unique: false
     },
     cropTypeDescription: {
         type: Sequelize.STRING,
         allowNull: false,
         unique: false,
-        defaultValue: "No description" /*,
-        validate: {
-            len: [0, 100]
-        }
-        */
+        defaultValue: "No description"
     }
 }, {
     timestamps: false,
     freezeTableName: true
-})
+});
 
-module.exports = CropType
+module.exports = CropType;

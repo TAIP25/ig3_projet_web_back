@@ -1,15 +1,15 @@
-const Sequelize = require('sequelize')
+const Sequelize = require('sequelize');
 
-const sequelize = require('../database/sequelize')
+const sequelize = require('../database/sequelize');
 
 const Crop = sequelize.define('Crop', {
     cropId: {
-        type: Sequelize.INTEGER,
-        autoIncrement: true,
+        type: Sequelize.UUID,
+        defaultValue: Sequelize.UUIDV4,
         primaryKey: true
     },
     plotId: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.UUID,
         allowNull: false,
         references: {
             model: 'Plot',
@@ -17,7 +17,7 @@ const Crop = sequelize.define('Crop', {
         }
     },
     cropTypeId: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.UUID,
         allowNull: false,
         unique: false,
         references: {
@@ -27,21 +27,15 @@ const Crop = sequelize.define('Crop', {
     },
     cropLocX: {
         type: Sequelize.INTEGER,
-        allowNull: false,
-        validate: {
-            min: 0
-        }
+        allowNull: false
     },
     cropLocY: {
         type: Sequelize.INTEGER,
-        allowNull: false,
-        validate: {
-            min: 0
-        }
+        allowNull: false
     }
 }, {
     timestamps: false,
     freezeTableName: true
-})
+});
 
-module.exports = Crop
+module.exports = Crop;

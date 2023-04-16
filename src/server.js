@@ -20,23 +20,28 @@ require("./models/index");
 // Voici le port sur lequel le serveur va écouter
 const PORT = process.env.PORT || 7778;
 
-(async () => {
-try {
+sequelize
     // Se connecte à la base de données
-    await sequelize.authenticate();
+    .authenticate()
+    .then(() => {
+        console.log("Database connection established.");
 
-    // Synchronise les modèles avec la base de données
-    await sequelize.sync({ force: true });
-    console.log('Database connection established and models synced.');
-    
-    // Créer une application express
-    const server = http.createServer(app);
+        // Synchronise les modèles avec la base de données
+        // Force: true supprime la base de données et la recrée
+        // Attention à ne pas l'utiliser en production!!!
+        return sequelize.sync({ force: true });
+    })
+    .then(() => {
+        console.log("Database models synced.");
 
-    // Ouvre le serveur sur le port, ici 7778
-    server.listen(PORT, () => {
-        console.log(`Server is running on port ${PORT}: http://localhost:${PORT}`);
+        // Créer une application express
+        const server = http.createServer(app);
+
+        // Ouvre le serveur sur le port, ici 7778
+        server.listen(PORT, () => {
+            console.log(`Server is running on port ${PORT}: http://localhost:${PORT}`);
+        });
+    })
+    .catch((error) => {
+        console.error('Unable to connect to the database or sync models:', error);
     });
-} catch (error) {
-    console.error('Unable to connect to the database or sync models:', error);
-}
-})();

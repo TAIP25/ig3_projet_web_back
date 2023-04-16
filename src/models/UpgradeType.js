@@ -1,11 +1,11 @@
-const Sequelize = require('sequelize')
+const Sequelize = require('sequelize');
 
-const sequelize = require('../database/sequelize')
+const sequelize = require('../database/sequelize');
 
 const UpgradeType = sequelize.define('UpgradeType', {
     upgradeTypeId: {
-        type: Sequelize.INTEGER,
-        autoIncrement: true,
+        type: Sequelize.UUID,
+        defaultValue: Sequelize.UUIDV4,
         primaryKey: true,
         references: {
             model: 'Upgrade',
@@ -25,6 +25,6 @@ const UpgradeType = sequelize.define('UpgradeType', {
 }, {
     timestamps: false,
     freezeTableName: true
-})
+});
 
-module.exports = UpgradeType
+module.exports = UpgradeType;

@@ -2,24 +2,27 @@ const { UserGame } = require('../models/index');
 
 // TODO: faire du async/await
 
-exports.createUserGame = async (req, res, next) => {
-    try{
-        const userGame = await UserGame.create({
+exports.createUserGame = (req, res, next) => {
+    UserGame
+        .create({
             userGameId: req.body.userGameId,
             username: req.body.username
+        })
+        .then(result => {
+            res.status(201).json({
+                result: result
+            });
+        })
+        .catch(err => {
+            res.status(500).json({
+                error: err
+            });
         });
-        res.status(201).json(userGame);
-    }
-    catch(err) {
-        res.status(500).json({
-            message: 'UserGame creation failed',
-            error: err
-        });
-    }
 };
 
 exports.earnExperience = (req, res, next) => {
-    UserGame.findByPk(req.params.id)
+    UserGame
+        .findByPk(req.params.id)
         .then(userGame => {
             if(userGame.experience + req.body.experience >= userGame.level * 1000) {
                 userGame.experience -= 1000 * userGame.level;
@@ -46,7 +49,8 @@ exports.earnExperience = (req, res, next) => {
 };
 
 exports.earnGold = (req, res, next) => {
-    UserGame.findByPk(req.params.id)
+    UserGame
+        .findByPk(req.params.id)
         .then(userGame => {
             userGame.gold += req.body.gold;
             res.status(200).json({
@@ -62,7 +66,8 @@ exports.earnGold = (req, res, next) => {
 };
 
 exports.earnDiamond = (req, res, next) => {
-    UserGame.findByPk(req.params.id)
+    UserGame
+        .findByPk(req.params.id)
         .then(userGame => {
             userGame.diamond += req.body.diamond;
             return userGame.save();
