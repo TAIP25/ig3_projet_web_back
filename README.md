@@ -8,7 +8,7 @@ Démarer le service postgresql
 
 Se connecter à postgresql
     
-        psql -h nom_hote -p port -U nom_utilisateur -d nom_base_de_donnees
+    psql -h nom_hote -p port -U nom_utilisateur -d nom_base_de_donnees
 
 (Attention pour la table User il faut mettre "User" car "user" est un mot clé de postgresql)
 

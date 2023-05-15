@@ -65,15 +65,16 @@ exports.createUser = (req, res, next) => {
             })
         }) 
         .then(result => {
-            //Création d'un token d'authentification
+            // Création d'un token d'authentification
             const payload = { userId: result.dataValues.userId };
             const secret = process.env.JWT_SECRET;
             const token = jwt.sign(payload, secret, { expiresIn: '1w' });
 
-            //Envoi du cookie avec le token d'authentification
+            //TODO: {secure: true,httpOnly: true, sameSite: 'strict' (sameSite n'est pas obligatoire si le cors est bien configuré)}
+            // Envoi du cookie avec le token d'authentification
             res.cookie('authcookie', token, {
                 sameSite: 'lax',
-                parth: '/',
+                parth: '/'
             });
 
             return result;

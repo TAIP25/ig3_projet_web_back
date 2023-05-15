@@ -11,6 +11,7 @@ const app = express();
 app.use(helmet());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+// TODO: Dois autoriser seulement les requêtes provenant du frontend
 app.use(cors({
     origin: true,
     credentials: true
