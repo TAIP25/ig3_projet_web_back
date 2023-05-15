@@ -20,25 +20,21 @@ require('dotenv').config();
 // status 409 = Conflict
 // status 500 = Internal Server Error
 
-// Fonction pour gérer les erreurs lors de la création d'un compte utilisateur
-handleCreateUserError = (err, res) => {
-    // A finir + le faire aussi pour la création d'un compte admin + le mettre dans une fonction
-    if(err.name === "SequelizeUniqueConstraintError"){
-        if(err.errors[0].message === "email must be unique"){
-            return res.status(409).json({
-                severity: "error",
-                result: "Cet email est déjà utilisé, veuillez réessayer"
-            });
-        }
-    }
-    // Si l'erreur n'est pas gérée alors on renvoie une erreur interne du serveur
-    // TODO: Ajouter un système de log pour enregistrer les erreurs dans un fichier
-    console.log(err);
-    return res.status(500).json({
-        severity: "error",
-        result: "Erreur interne du serveur, veuillez réessayer"
+// Fonction qui permet de créer un cookie d'authentification
+createAuthCookie = (res, userId) => {
+    // Création d'un token d'authentification
+    const payload = { userId: userId };
+    const secret = process.env.JWT_SECRET;
+    const token = jwt.sign(payload, secret, { expiresIn: '1w' });
+
+    //TODO: {secure: true,httpOnly: true, sameSite: 'strict' (sameSite n'est pas obligatoire si le cors est bien configuré)}
+    // Envoi du cookie avec le token d'authentification
+    res.cookie('authcookie', token, {
+        sameSite: 'lax',
+        parth: '/'
     });
 }
+
 
 exports.createUser = (req, res, next) => {
 
@@ -54,7 +50,7 @@ exports.createUser = (req, res, next) => {
     else if(req.body.adminCode === "" || req.body.adminCode === process.env.ADMIN_PASSWORD) {
         // Longueur du sel pour le hashage du mot de passe
         const bcryptSalt = 10;
-        
+
         // Hashage du mot de passe
         bcrypt.hash(req.body.password, bcryptSalt)
         .then(hash => {
@@ -65,17 +61,8 @@ exports.createUser = (req, res, next) => {
             })
         }) 
         .then(result => {
-            // Création d'un token d'authentification
-            const payload = { userId: result.dataValues.userId };
-            const secret = process.env.JWT_SECRET;
-            const token = jwt.sign(payload, secret, { expiresIn: '1w' });
-
-            //TODO: {secure: true,httpOnly: true, sameSite: 'strict' (sameSite n'est pas obligatoire si le cors est bien configuré)}
-            // Envoi du cookie avec le token d'authentification
-            res.cookie('authcookie', token, {
-                sameSite: 'lax',
-                parth: '/'
-            });
+            // Création d'un cookie d'authentification
+            createAuthCookie(res, result.dataValues.userId);
 
             return result;
             })
@@ -96,9 +83,22 @@ exports.createUser = (req, res, next) => {
             }
         })
         .catch(err => {
-            //Utilisation de la fonction manageError pour gérer les erreurs
-            return handleCreateUserError(err, res);
-            
+            if(err.name === "SequelizeUniqueConstraintError"){
+                if(err.errors[0].message === "email must be unique"){
+                    return res.status(409).json({
+                        severity: "error",
+                        result: "Cet email est déjà utilisé, veuillez réessayer"
+                    });
+                }
+            }
+            // Si l'erreur n'est pas gérée alors on renvoie une erreur interne du serveur
+            // TODO: Ajouter un système de log pour enregistrer les erreurs dans un fichier
+            console.log(err);
+            console.log(err.name)
+            return res.status(500).json({
+                severity: "error",
+                result: "Erreur interne du serveur, veuillez réessayer"
+            });
         });
     }
 
@@ -119,25 +119,67 @@ exports.createUser = (req, res, next) => {
     }
 };
 
-exports.getUser = (req, res, next) => {
-    if(!req.params.email) {
+exports.loginUser = (req, res, next) => {
+
+    // Vérification des champs obligatoires
+    if(req.body.email === ""  || req.body.password === "") {
         return res.status(400).json({
-            error: "Missing email parameter"
+            severity: "error",
+            result: "Les champs obligatoires ne sont pas remplis, veuillez réessayer"
         });
     }
 
-    User
-        .findByPk(req.params.email)
+    else{
+        User.findOne({ where: { email: req.body.email } })
         .then(user => {
-            res.status(200).json({
-                user: user
+            if(!user){
+                // On rejette la promesse, le catch s'occupe de renvoyer l'erreur
+                return Promise.reject({
+                    code: 400,
+                    severity: "error",
+                    result: "Cet email n'existe pas, veuillez réessayer"
+                });
+            }
+            return bcrypt.compare(req.body.password, user.dataValues.password)
+            .then(correctPassword => {
+                return { correctPassword: correctPassword, userId: user.dataValues.userId };
             });
         })
+        .then(({correctPassword, userId}) => {
+            if(!correctPassword){
+                // On rejette la promesse, le catch s'occupe de renvoyer l'erreur
+                return Promise.reject({
+                    code: 400,
+                    severity: "error",
+                    result: "Le mot de passe est incorrect, veuillez réessayer"
+                });
+            }
+            else{
+                // Création d'un token d'authentification
+                createAuthCookie(res, userId);
+                return res.status(200).json({
+                    severity: "success",
+                    result: "Connexion réussie"
+                });
+            }
+        })
         .catch(err => {
-            res.status(500).json({
-                error: err
+            if(err.code !== undefined){
+                return res.status(err.code).json({
+                    severity: err.severity,
+                    result: err.result
+                });
+            }
+            // Si l'erreur n'est pas gérée alors on renvoie une erreur interne du serveur
+            // TODO: Ajouter un système de log pour enregistrer les erreurs dans un fichier
+            console.log(err);
+            console.log(err.name);
+            return res.status(500).json({
+                severity: "error",
+                result: "Erreur interne du serveur, veuillez réessayer"
             });
         });
+    }
 };
 
 exports.updateUser = (req, res, next) => {
