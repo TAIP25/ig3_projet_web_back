@@ -12,7 +12,7 @@ require('dotenv').config();
 //const validator = require('validator');
 
 // TODO:
-// vérifier l'email etc.
+// vérifier l'email etc., sécuriser les cookies et les cors.
 
 // status 200 = OK
 // status 201 = Created
@@ -52,8 +52,11 @@ exports.createUser = (req, res, next) => {
 
     // Création d'un compte
     else if(req.body.adminCode === "" || req.body.adminCode === process.env.ADMIN_PASSWORD) {
+        // Longueur du sel pour le hashage du mot de passe
+        const bcryptSalt = 10;
+        
         // Hashage du mot de passe
-        bcrypt.hash(req.body.password, 10)
+        bcrypt.hash(req.body.password, bcryptSalt)
         .then(hash => {
             return User.create({
                 email: req.body.email,
@@ -70,7 +73,7 @@ exports.createUser = (req, res, next) => {
             //Envoi du cookie avec le token d'authentification
             res.cookie('authcookie', token, {
                 sameSite: 'lax',
-                path: '/inscription'
+                parth: '/',
             });
 
             return result;

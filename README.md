@@ -1,5 +1,32 @@
 # ig3_projet_web_back
 
+## Aide pour la db
+
+Démarer le service postgresql
+
+    sudo service postgresql start
+
+Se connecter à postgresql
+    
+        psql -h nom_hote -p port -U nom_utilisateur -d nom_base_de_donnees
+
+(Attention pour la table User il faut mettre "User" car "user" est un mot clé de postgresql)
+
+## Setup le .env
+
+    #Ici on crée la variable d'environnement qui permet de se connecter à la base de donnée
+    DB_NAME=nom_base_de_donnees
+    DB_USER=nom_utilisateur
+    DB_PASSWORD=mot_de_passe
+    DB_HOST=nom_hote
+    DB_PORT=port
+
+    #Ici on crée la variable d'environnement qui permet de donner le privilège admin à l'utilisateur qui s'inscrit avec le bon mot de passe admin
+    ADMIN_PASSWORD=mot_de_passe_admin
+
+    #Ici on crée la variable d'environnement qui permet de créer un jeton d'authentification via jwt
+    JWT_SECRET=mot_de_passe_jwt
+
 ## Description
 
 Ce projet est un projet seul. Il s'agit d'un projet en 3ème année de Polytech Montpellier en Informatique et Gestion. Ce projet est un projet de développement d'une application web. L'application web est un jeu de gestion de ferme. Le projet est divisé en deux parties, une partie front et une partie back. Cette partie est la partie back.
