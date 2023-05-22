@@ -1,86 +1,52 @@
-const { UserGame } = require('../models/index');
+const { UserGame } = require('../models/newModels/index');
 
-// TODO: faire du async/await
+differenceTick = (lastRequest, date) => {
+    console.log("differenceTick: " + (date - lastRequest)/1000);
+    return (date - lastRequest)/1000;
+}
 
-exports.createUserGame = (req, res, next) => {
-    UserGame
-        .create({
-            userGameId: req.body.userGameId,
-            username: req.body.username
-        })
+moneyEarnedPerTick = (userGame) => {
+    return userGame.cropLimit/100;
+}
+
+tokenEarnedPerTick = (userGame) => {
+    return userGame.cropLimit/100;
+}
+
+exports.updateUserGame(req, res, next){
+    UserGame.findByPk(req.userId)
+    .then(userGame => {
+        if(!userGame){
+            return res.status(400).json({
+                severity: "error",
+                result: "Utilisareur en jeu non trouvé"
+            });
+        }
+
+        const date = Date.now();
+        const moneyEarnedPerTick = moneyEarnedPerTick(userGame);
+        const tokenEarnedPerTick = tokenEarnedPerTick(userGame);
+
+        return Promise.all([moneyEarnedPerTick, tokenEarnedPerTick])
         .then(result => {
-            res.status(201).json({
-                result: result
-            });
-        })
-        .catch(err => {
-            res.status(500).json({
-                error: err
-            });
-        });
-};
-
-exports.earnExperience = (req, res, next) => {
-    UserGame
-        .findByPk(req.params.id)
-        .then(userGame => {
-            if(userGame.experience + req.body.experience >= userGame.level * 1000) {
-                userGame.experience -= 1000 * userGame.level;
-                userGame.level += 1;
-                res.status(200).json({
-                    levelUp: true,
-                    experience: userGame.experience
-                });
-            }
-            else {
-                userGame.experience += req.body.experience;
-                res.status(200).json({
-                    levelUp: false,
-                    experience: userGame.experience
-                });
-            }
+            userGame.money += differenceTick(userGame.lastRequest, date)*moneyEarnedPerTick;
+            userGame.token += differenceTick(userGame.lastRequest, date)*tokenEarnedPerTick;
+            console.log("lastRequestBefore: " + userGame.lastRequest + " lastRequestAfter: " + date);
+            userGame.lastRequest = date;
             return userGame.save();
-        })
-        .catch(err => {
-            res.status(500).json({
-                error: err
-            });
         });
-};
-
-exports.earnGold = (req, res, next) => {
-    UserGame
-        .findByPk(req.params.id)
-        .then(userGame => {
-            userGame.gold += req.body.gold;
-            res.status(200).json({
-                gold: userGame.gold
-            });
-            return userGame.save();
-        })
-        .catch(err => {
-            res.status(500).json({
-                error: err
-            });
+    })
+    .then(result => {
+        return res.status(200).json({
+            severity: "success",
+            result: result
         });
-};
-
-exports.earnDiamond = (req, res, next) => {
-    UserGame
-        .findByPk(req.params.id)
-        .then(userGame => {
-            userGame.diamond += req.body.diamond;
-            return userGame.save();
-        })
-        .then(result => {
-            res.status(200).json({
-                result: result
-            });
-        })
-        .catch(err => {
-            res.status(500).json({
-                error: err
-            });
+    })
+    .catch(err => {
+        return res.status(500).json({
+            severity: "error",
+            result: "Erreur interne du serveur, veuillez réessayer"
         });
+    });
 }
 

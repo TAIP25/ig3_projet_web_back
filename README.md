@@ -76,6 +76,7 @@ erDiagram
         BIGINT userCropLimit
         BIGINT userMoney
         BIGINT userToken
+        DATE userLastRequest
     }
 
     UserCrop {

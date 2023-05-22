@@ -27,7 +27,13 @@ const UserGame = sequelize.define('UserGame', {
         allowNull: false,
         unique: false,
         defaultValue: 0
-    }
+    },
+    userLastRequest: {
+        type: Sequelize.DATE,
+        allowNull: false,
+        unique: false,
+        defaultValue: Sequelize.NOW
+    },
 }, {
     timestamps: false,
     freezeTableName: true

@@ -17,7 +17,8 @@ const authMiddleware = (req, res, next) => {
             });
         } else {
             console.log(decodedToken);
-            //next();
+            req.userId = decodedToken.userId;
+            next();
         }
     });
 }
