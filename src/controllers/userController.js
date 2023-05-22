@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 
-const { User } = require('../models/index');
+const { User, UserGame } = require('../models/newModels/index');
 
 require('dotenv').config();
 
@@ -30,6 +30,8 @@ createAuthCookie = (res, userId) => {
     //TODO: {secure: true,httpOnly: true, sameSite: 'strict' (sameSite n'est pas obligatoire si le cors est bien configuré)}
     // Envoi du cookie avec le token d'authentification
     res.cookie('authcookie', token, {
+        httpOnly: true,
+        secure: true,
         sameSite: 'lax',
         parth: '/'
     });
@@ -59,13 +61,25 @@ exports.createUser = (req, res, next) => {
                 password: hash,
                 isAdmin: req.body.adminCode === process.env.ADMIN_PASSWORD
             })
-        }) 
+        })
+        .then(result => {
+            // Création d'un UserGame
+            return UserGame.create({
+                userGameId: result.dataValues.userId,
+                username: "Joueur",
+                userCropLimit: 100,
+                userMoney: 1000,
+                userToken: 1000
+            }).then(() => {
+                return result;
+            });
+        })
         .then(result => {
             // Création d'un cookie d'authentification
             createAuthCookie(res, result.dataValues.userId);
 
             return result;
-            })
+        })
         .then(result => {
             if(result.dataValues.isAdmin){
                 console.log("Compte administrateur créé avec succès");

@@ -1,6 +1,7 @@
+/*
 const Sequelize = require('sequelize');
 
-const sequelize = require('../database/sequelize');
+const sequelize = require('../../database/sequelize');
 
 const Plot = sequelize.define('Plot', {
     plotId: {
@@ -48,4 +49,4 @@ const Plot = sequelize.define('Plot', {
 });
 
 module.exports = Plot;
-
+*/

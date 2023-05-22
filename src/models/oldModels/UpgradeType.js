@@ -1,31 +1,32 @@
+/*
 const Sequelize = require('sequelize');
 
-const sequelize = require('../database/sequelize');
+const sequelize = require('../../database/sequelize');
 
-const Stat = sequelize.define('Stat', {
-    statId: {
+const UpgradeType = sequelize.define('UpgradeType', {
+    upgradeTypeId: {
         type: Sequelize.UUID,
         defaultValue: Sequelize.UUIDV4,
         primaryKey: true,
         references: {
-            model: 'UserStat',
-            key: 'statId'
+            model: 'Upgrade',
+            key: 'upgradeTypeId'
         }
     },
-    statName: {
+    upgradeTypeName: {
         type: Sequelize.STRING,
         allowNull: false,
         unique: true
     },
-    statDescription: {
-        type: Sequelize.STRING,
+    upgradeTypePriceType: {
+        type: Sequelize.BOOLEAN,
         allowNull: false,
-        unique: false,
-        defaultValue: "No description"
+        unique: false
     }
 }, {
     timestamps: false,
     freezeTableName: true
 });
 
-module.exports = Stat;
+module.exports = UpgradeType;
+*/

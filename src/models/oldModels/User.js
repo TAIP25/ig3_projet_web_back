@@ -1,6 +1,7 @@
+/*
 const Sequelize = require('sequelize');
 
-const sequelize = require('../database/sequelize');
+const sequelize = require('../../database/sequelize');
 
 const User = sequelize.define('User', {
     userId: {
@@ -46,3 +47,4 @@ const User = sequelize.define('User', {
 });
 
 module.exports = User;
+*/

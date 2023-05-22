@@ -1,48 +1,49 @@
 const Sequelize = require('sequelize');
 
-const sequelize = require('../database/sequelize');
+const sequelize = require('../../database/sequelize');
 
-const Upgrade = sequelize.define('Upgrade', {
-    upgradeId: {
+const Crop = sequelize.define('Crop', {
+    cropId: {
         type: Sequelize.UUID,
         defaultValue: Sequelize.UUIDV4,
         primaryKey: true,
         references: {
-            model: 'UserUpgrade',
-            key: 'upgradeId'
+            model: 'UserCrop',
+            key: 'cropId'
         }
     },
-    upgradeTypeId: {
-        type: Sequelize.UUID,
-        allowNull: false,
-        unique: true,
-        references: {
-            model: 'UpgradeType',
-            key: 'upgradeTypeId'
-        }
-    },
-    upgradeName: {
+    cropName: {
         type: Sequelize.STRING,
         allowNull: false,
         unique: true
     },
-    upgradeLevelRequired: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-        unique: false
-    },
-    upgradeGrade: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-        unique: false
-    },
-    upgradePrice: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-        unique: false
-    },
-    upgradeDescription: {
+    cropPNGName: {
         type: Sequelize.STRING,
+        allowNull: false,
+        unique: true
+    },
+    cropTier: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        unique: true
+    },
+    cropMoneyPrice: {
+        type: Sequelize.BIGINT,
+        allowNull: false,
+        unique: false
+    },
+    cropTokenPrice: {
+        type: Sequelize.BIGINT,
+        allowNull: false,
+        unique: false
+    },
+    cropMoneyEarning: {
+        type: Sequelize.BIGINT,
+        allowNull: false,
+        unique: false
+    },
+    cropAmountEarningOneToken: {
+        type: Sequelize.BIGINT,
         allowNull: false,
         unique: false
     }
@@ -51,4 +52,4 @@ const Upgrade = sequelize.define('Upgrade', {
     freezeTableName: true
 });
 
-module.exports = Upgrade;
+module.exports = Crop;

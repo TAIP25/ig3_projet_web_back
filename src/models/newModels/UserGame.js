@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize');
 
-const sequelize = require('../database/sequelize');
+const sequelize = require('../../database/sequelize');
 
 const UserGame = sequelize.define('UserGame', {
     userGameId: {
@@ -16,25 +16,13 @@ const UserGame = sequelize.define('UserGame', {
         allowNull: false,
         unique: false
     },
-    level: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-        unique: false,
-        defaultValue: 1
-    },
-    experience: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-        unique: false,
-        defaultValue: 0
-    },
-    gold: {
+    userMoney: {
         type: Sequelize.BIGINT,
         allowNull: false,
         unique: false,
         defaultValue: 0
     },
-    diamond: {
+    userToken: {
         type: Sequelize.BIGINT,
         allowNull: false,
         unique: false,

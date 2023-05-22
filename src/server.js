@@ -15,7 +15,7 @@ const app = require("./app");
 const sequelize = require("./database/sequelize");
 
 // Charge les models de la base de données pour que Sequelize puisse les synchroniser
-require("./models/index");
+require("./models/newModels/index");
 
 // Voici le port sur lequel le serveur va écouter
 const PORT = process.env.PORT || 7778;

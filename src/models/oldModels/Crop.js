@@ -1,6 +1,7 @@
+/*
 const Sequelize = require('sequelize');
 
-const sequelize = require('../database/sequelize');
+const sequelize = require('../../database/sequelize');
 
 const Crop = sequelize.define('Crop', {
     cropId: {
@@ -39,3 +40,4 @@ const Crop = sequelize.define('Crop', {
 });
 
 module.exports = Crop;
+*/
