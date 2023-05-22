@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+
 const secret = process.env.JWT_SECRET;
 
 // TODO Pas encore testé !!!
@@ -16,7 +17,7 @@ const authMiddleware = (req, res, next) => {
             });
         } else {
             console.log(decodedToken);
-            next();
+            //next();
         }
     });
 }
