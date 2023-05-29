@@ -33,7 +33,8 @@ createAuthCookie = (res, userId) => {
         httpOnly: true,
         secure: true,
         domain: process.env.COOKIE_DOMAIN,
-        path: '/'
+        path: '/',
+        sameSite: 'lax',
     });
 }
 
