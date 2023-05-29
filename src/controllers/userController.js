@@ -5,10 +5,6 @@ const { User, UserGame } = require('../models/newModels/index');
 
 require('dotenv').config();
 
-
-
-
-
 //const validator = require('validator');
 
 // TODO:
@@ -30,8 +26,8 @@ createAuthCookie = (res, userId) => {
     //TODO: {secure: true,httpOnly: true, sameSite: 'strict' (sameSite n'est pas obligatoire si le cors est bien configuré)}
     // Envoi du cookie avec le token d'authentification
     res.cookie('authcookie', token, {
-        httpOnly: true,
-        //secure: true,
+        //httpOnly: true,
+        secure: true,
         //domain: process.env.COOKIE_DOMAIN,
         path: '/',
         //sameSite: 'None',
