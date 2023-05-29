@@ -32,8 +32,6 @@ createAuthCookie = (res, userId) => {
     res.cookie('authcookie', token, {
         httpOnly: true,
         secure: true,
-        sameSite: 'lax',
-        parth: '/'
     });
 }
 
