@@ -32,9 +32,9 @@ createAuthCookie = (res, userId) => {
     res.cookie('authcookie', token, {
         httpOnly: true,
         secure: true,
-        domain: process.env.COOKIE_DOMAIN,
+        //domain: process.env.COOKIE_DOMAIN,
         path: '/',
-        sameSite: 'lax',
+        sameSite: 'None',
     });
 }
 
