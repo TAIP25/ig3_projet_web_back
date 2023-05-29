@@ -27,10 +27,10 @@ createAuthCookie = (res, userId) => {
     // Envoi du cookie avec le token d'authentification
     res.cookie('authcookie', token, {
         httpOnly: true,
-        //secure: true,
+        secure: true,
         //domain: process.env.COOKIE_DOMAIN,
         path: '/',
-        //sameSite: 'None',
+        sameSite: 'None',
     });
 }
 
