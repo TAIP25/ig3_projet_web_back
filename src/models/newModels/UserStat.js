@@ -26,7 +26,7 @@ const UserStat = sequelize.define('UserStat', {
             key: 'userGameId'
         }
     },
-    statValue: {
+    userStatValue: {
         type: Sequelize.BIGINT,
         allowNull: false,
         unique: false,

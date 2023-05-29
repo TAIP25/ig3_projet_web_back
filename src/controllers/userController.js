@@ -66,10 +66,10 @@ exports.createUser = (req, res, next) => {
             // Création d'un UserGame
             return UserGame.create({
                 userGameId: result.dataValues.userId,
-                username: "Joueur",
-                userCropLimit: 100,
-                userMoney: 1000,
-                userToken: 1000
+                userGameName: "Joueur",
+                userGameCropLimit: 100,
+                userGameMoney: 10000,
+                userGameToken: 1000
             }).then(() => {
                 return result;
             });
@@ -209,62 +209,31 @@ exports.updateUser = (req, res, next) => {
     }
     
     User
-        .findOne({
-            where: {
-                email: req.params.email
-            }
-        })
-        .then(user => {
-            if(req.body.password){
-                user.password = req.body.password;
-            }
-            if(req.body.newEmail){
-                user.email = req.body.newEmail;
-            }
-            user.userUpdatedAt = Sequelize.literal('NOW()');
-            return user.save();
-        })
-        .then(result => {
-            res.status(200).json({
-                result: result
-            });
-        })
-        .catch(err => {
-            res.status(500).json({
-                error: err
-            });
+    .findOne({
+        where: {
+            email: req.params.email
+        }
+    })
+    .then(user => {
+        if(req.body.password){
+            user.password = req.body.password;
+        }
+        if(req.body.newEmail){
+            user.email = req.body.newEmail;
+        }
+        user.userUpdatedAt = Sequelize.literal('NOW()');
+        return user.save();
+    })
+    .then(result => {
+        res.status(200).json({
+            result: result
         });
-};
-
-
-//Ici pas encore de protection
-exports.addAmin = (req, res, next) => {
-    if(!req.params.email) {
-        return res.status(400).json({
-            error: "Missing email parameter"
+    })
+    .catch(err => {
+        res.status(500).json({
+            error: err
         });
-    }
-    
-    User
-        .findOne({
-            where: {
-                email: req.params.email
-            }
-        })
-        .then(user => {
-            user.isAdmin = true;
-            return user.save();
-        })
-        .then(result => {
-            res.status(200).json({
-                result: result
-            });
-        })
-        .catch(err => {
-            res.status(500).json({
-                error: err
-            });
-        });
+    });
 };
 
 exports.deleteUser = (req, res, next) => {
@@ -275,22 +244,22 @@ exports.deleteUser = (req, res, next) => {
     }
 
     User
-        .findOne({
-            where: {
-                email: req.params.email
-            }
-        })
-        .then(user => {
-            return user.destroy();
-        })
-        .then(result => {
-            res.status(200).json({
-                result: result
-            });
-        })
-        .catch(err => {
-            res.status(500).json({
-                error: err
-            });
+    .findOne({
+        where: {
+            email: req.params.email
+        }
+    })
+    .then(user => {
+        return user.destroy();
+    })
+    .then(result => {
+        res.status(200).json({
+            result: result
         });
+    })
+    .catch(err => {
+        res.status(500).json({
+            error: err
+        });
+    });
 };

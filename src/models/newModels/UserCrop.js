@@ -25,7 +25,7 @@ const UserCrop = sequelize.define('UserCrop', {
             key: 'cropId'
         }
     },
-    cropQuantity: {
+    userCropQuantity: {
         type: Sequelize.BIGINT,
         allowNull: false,
         unique: false

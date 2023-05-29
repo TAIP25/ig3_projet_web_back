@@ -11,24 +11,30 @@ const UserGame = sequelize.define('UserGame', {
             key: 'userId'
         }
     },
-    username: {
+    userGameName: {
         type: Sequelize.STRING,
         allowNull: false,
         unique: false
     },
-    userMoney: {
+    userGameCropLimit: {
+        type: Sequelize.BIGINT,
+        allowNull: false,
+        unique: false,
+        defaultValue: 100
+    },
+    userGameMoney: {
         type: Sequelize.BIGINT,
         allowNull: false,
         unique: false,
         defaultValue: 0
     },
-    userToken: {
+    userGameToken: {
         type: Sequelize.BIGINT,
         allowNull: false,
         unique: false,
         defaultValue: 0
     },
-    userLastRequest: {
+    userGameLastRequest: {
         type: Sequelize.DATE,
         allowNull: false,
         unique: false,

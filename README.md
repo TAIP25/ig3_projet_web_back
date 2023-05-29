@@ -72,25 +72,25 @@ erDiagram
 
     UserGame {
         UUID userGameId
-        STRING username
-        BIGINT userCropLimit
-        BIGINT userMoney
-        BIGINT userToken
-        DATE userLastRequest
+        STRING userGameName
+        BIGINT userGameCropLimit
+        BIGINT userGameMoney
+        BIGINT userGameToken
+        DATE userGameLastRequest
     }
 
     UserCrop {
         UUID userCropId
         UUID userGameId
         UUID cropId
-        BIGINT cropQuantity
+        BIGINT userCropQuantity
     }
 
     UserStat {
         UUID userStatId
         UUID statId
         UUID userGameId
-        BIGINT statValue
+        BIGINT userStatValue
     }
 
     Stat {
@@ -105,9 +105,9 @@ erDiagram
         STRING cropPNGName
         INTEGER cropTier
         BIGINT cropMoneyPrice
-        BIGINT cropPrice
+        BIGINT cropTokenPrice
         BIGINT cropMoneyEarning
-        BIGINT cropAmountEarningOne
+        BIGINT cropAmountEarningOneToken
     }
 ```
 

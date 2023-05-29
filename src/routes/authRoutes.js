@@ -13,6 +13,3 @@ router.post('/signin', userController.loginUser);
 router.post('/', authMiddleware);
 
 module.exports = router;
-
-
-
