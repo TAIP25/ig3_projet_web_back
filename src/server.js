@@ -29,8 +29,8 @@ sequelize
     // Synchronise les modèles avec la base de données
     // Force: true supprime la base de données et la recrée
     // Attention à ne pas l'utiliser en production!!!
-    return sequelize.sync({ force: true });
-    //return sequelize.sync();
+    //return sequelize.sync({ force: true });
+    return sequelize.sync();
 })
 .then(() => {
     console.log("Database models synced.");
@@ -227,7 +227,10 @@ sequelize
             cropMoneyEarning: 10000,
             cropAmountEarningOneToken: 151
         }
-    ])   
+    ])
+    .catch((error) => {
+        // Ici => ce n'est pas la première fois que l'on lance l'application
+    });   
 })
 .catch((error) => {
     console.error('Unable to connect to the database or sync models:', error);
