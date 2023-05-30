@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 
-const { User, UserGame } = require('../models/newModels/index');
+const { User, UserGame, UserCrop } = require('../models/newModels/index');
 
 require('dotenv').config();
 
@@ -29,11 +29,20 @@ createAuthCookie = (res, userId) => {
 
     //TODO: {secure: true,httpOnly: true, sameSite: 'strict' (sameSite n'est pas obligatoire si le cors est bien configuré)}
     // Envoi du cookie avec le token d'authentification
+    /* DEV config
     res.cookie('authcookie', token, {
         httpOnly: true,
         secure: true,
         domain: process.env.COOKIE_DOMAIN,
         path: '/'
+    });
+    */
+    res.cookie('authcookie', token, {
+        httpOnly: true,
+        secure: true,
+        //domain: process.env.COOKIE_DOMAIN,
+        path: '/',
+        sameSite: 'None',
     });
 }
 
@@ -236,30 +245,99 @@ exports.updateUser = (req, res, next) => {
     });
 };
 
+exports.getAllUsers = (req, res, next) => {
+    if(req.isAdmin === true){
+        User
+        .findAll()
+        .then(users => {
+            res.status(200).json({
+                users: users
+            });
+        })
+        .catch(err => {
+            res.status(500).json({
+                error: err
+            });
+        });
+    }
+    else{
+        res.status(401).json({
+            severity: "error",
+            result: "Vous n'êtes pas autorisé à accéder à cette ressource"
+        });
+    }
+};
+
 exports.deleteUser = (req, res, next) => {
-    if(!req.params.email) {
+    console.log(req.params.userId);
+    if(!req.params.userId) {
         return res.status(400).json({
-            error: "Missing email parameter"
+            severity: "error",
+            result: "Missing userId parameter"
         });
     }
 
-    User
-    .findOne({
+    if(req.isAdmin === false){
+        return res.status(401).json({
+            severity: "error",
+            result: "Vous n'êtes pas autorisé à accéder à cette ressource"
+        });
+    }
+
+    User.destroy({
         where: {
-            email: req.params.email
+            userId: req.params.userId
         }
     })
-    .then(user => {
-        return user.destroy();
+    .then(result => {
+        return UserCrop.destroy({
+            where: {
+                userGameId: req.params.userId
+            }
+        }).catch(err => {
+            console.log(2);
+            return Promise.reject({
+                code: 500,
+                severity: "error",
+                result: "Erreur interne du serveur, veuillez réessayer"
+            });
+        });
     })
     .then(result => {
-        res.status(200).json({
-            result: result
+        return UserGame.destroy({
+            where: {
+                userGameId: req.params.userId
+            }
+        }).catch(err => {
+            console.log(1);
+            return Promise.reject({
+                code: 500,
+                severity: "error",
+                result: "Erreur interne du serveur, veuillez réessayer"
+            });
+        });
+    })
+    .then(result => {
+        return res.status(200).json({
+            severity: "success",
+            result: "Utilisateur supprimé avec c'est dépendances supprimées avec succès"
         });
     })
     .catch(err => {
-        res.status(500).json({
-            error: err
+        if(err.code !== undefined){
+            console.log(3);
+            return res.status(err.code).json({
+                severity: err.severity,
+                result: err.result
+            });
+        }
+        // Si l'erreur n'est pas gérée alors on renvoie une erreur interne du serveur
+        // TODO: Ajouter un système de log pour enregistrer les erreurs dans un fichier
+        console.log(err);
+        console.log(err.name);
+        return res.status(500).json({
+            severity: "error",
+            result: "Erreur interne du serveur, veuillez réessayer"
         });
     });
 };

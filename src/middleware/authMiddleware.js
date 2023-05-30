@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+const { User } = require('../models/newModels/index');
 
 const secret = process.env.JWT_SECRET;
 
@@ -13,9 +14,28 @@ const authMiddleware = (req, res, next) => {
                 severity: "error",
                 result: "Vous n'êtes pas autorisé à accéder à cette page"
             });
-        } else {
-            req.userId = decodedToken.userId;
-            next();
+        } 
+        else {
+            User.findOne({ where: { userId: decodedToken.userId } })
+            .then(user => {
+                if(!user) {
+                    res.status(401).json({
+                        severity: "error",
+                        result: "Vous n'êtes pas autorisé à accéder à cette page"
+                    });
+                }
+                else {
+                    req.userId = decodedToken.userId;
+                    req.isAdmin = user.isAdmin;
+                    next();
+                }
+            })
+            .catch(err => {
+                res.status(500).json({
+                    severity: "error",
+                    result: "Une erreur est survenue, veuillez réessayer"
+                });
+            });
         }
     });
 }
