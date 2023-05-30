@@ -27,6 +27,9 @@ app.use('/userGame', require('./routes/userGameRoutes'));
 // Utilise les routes pour les cultures
 app.use('/crop', require('./routes/cropRoutes'));
 
+// Utilise les routes pour les admins
+app.use('/admin', require('./routes/adminRoutes'));
+
 // Ceci permet d'autoriser les requêtes provenant du frontend
 const whitelist = ['http://localhost:3000', 'http://localhost:3000/inscription', 'http://localhost:3000/connection', 'http://172.21.209.26:3000/inscription', 'http://172.21.209.26:3000'];
 

@@ -29,8 +29,8 @@ sequelize
     // Synchronise les modèles avec la base de données
     // Force: true supprime la base de données et la recrée
     // Attention à ne pas l'utiliser en production!!!
-    //return sequelize.sync({ force: true });
-    return sequelize.sync();
+    return sequelize.sync({ force: true });
+    //return sequelize.sync();
 })
 .then(() => {
     console.log("Database models synced.");

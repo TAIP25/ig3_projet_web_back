@@ -122,13 +122,16 @@ exports.updateUserGame = (req, res, next) => {
 
         return Promise.all([moneyEarnedPerTick, tokenEarnedPerTick])
         .then( () => {
-            result.userGame.userGameMoney = parseInt(result.userGame.userGameMoney) + differenceTick(new Date(result.userGame.userGameLastRequest), date)*moneyEarnedPerTick;
-            result.userGame.userGameToken = parseInt(result.userGame.userGameToken) + differenceTick(new Date(result.userGame.userGameLastRequest), date)*tokenEarnedPerTick;
+            result.userGame.userGameMoney = parseInt(result.userGame.userGameMoney) + differenceTick(new Date(result.userGame.userGameLastRequest), date)*moneyEarnedPerTick*10;
+            result.userGame.userGameToken = parseInt(result.userGame.userGameToken) + differenceTick(new Date(result.userGame.userGameLastRequest), date)*tokenEarnedPerTick*25;
             result.userGame.userGameLastRequest = parseInt(date - leftTick(new Date(result.userGame.userGameLastRequest), date));
             return result.userGame.save().then( userGame => {
                 return {
                     userGame: userGame,
-                    crops: result.crops
+                    crops: result.crops,
+                    moneyEarnedPerTick: moneyEarnedPerTick*10,
+                    tokenEarnedPerTick: tokenEarnedPerTick*25
+
                 };
             });
         });
@@ -138,7 +141,9 @@ exports.updateUserGame = (req, res, next) => {
             return {
                 userGame: result.userGame,
                 crops: result.crops,
-                amountCrop: amountCrop
+                amountCrop: amountCrop,
+                moneyEarnedPerTick: result.moneyEarnedPerTick,
+                tokenEarnedPerTick: result.tokenEarnedPerTick
             };
         });
     })
@@ -166,7 +171,9 @@ exports.updateUserGame = (req, res, next) => {
                 token: result.userGame.dataValues.userGameToken,
                 amountCrop: result.amountCrop,
                 crops: result.crops,
-                currentTick: currentTick
+                currentTick: currentTick,
+                moneyEarnedPerTick: result.moneyEarnedPerTick,
+                tokenEarnedPerTick: result.tokenEarnedPerTick
             });
         }
     })
