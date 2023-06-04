@@ -1,4 +1,4 @@
-const { Crop } = require('../models/newModels/index');
+const { Crop } = require('../models/index');
 
 exports.getAllCrops = (req, res, next) => {
     Crop

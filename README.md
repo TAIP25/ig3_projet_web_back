@@ -39,8 +39,8 @@ Ce projet est un projet seul. Il s'agit d'un projet en 3ème année de Polytech 
     #Ici on crée la variable d'environnement qui permet de créer un jeton d'authentification via jwt
     JWT_SECRET=mot_de_passe_jwt
 
-    #Ici on crée la variable d'environnement qui permet de dire que le cookie est valable uniquement sur ce domaine
-    COOKIE_DOMAIN=nom_domaine
+    #Ici on crée la variable d'environnement qui permet de setup le cors
+    CLIENT_URL=nom_domaine
 
 ### Aide pour la base de donnée
 

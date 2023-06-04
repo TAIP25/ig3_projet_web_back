@@ -1,7 +1,6 @@
-/*
 const Sequelize = require('sequelize');
 
-const sequelize = require('../../database/sequelize');
+const sequelize = require('../database/sequelize');
 
 const UserGame = sequelize.define('UserGame', {
     userGameId: {
@@ -12,39 +11,27 @@ const UserGame = sequelize.define('UserGame', {
             key: 'userId'
         }
     },
-    username: {
-        type: Sequelize.STRING,
-        allowNull: false,
-        unique: false
-    },
-    level: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-        unique: false,
-        defaultValue: 1
-    },
-    experience: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-        unique: false,
-        defaultValue: 0
-    },
-    gold: {
+    userGameMoney: {
         type: Sequelize.BIGINT,
         allowNull: false,
         unique: false,
         defaultValue: 0
     },
-    diamond: {
+    userGameToken: {
         type: Sequelize.BIGINT,
         allowNull: false,
         unique: false,
         defaultValue: 0
-    }
+    },
+    userGameLastRequest: {
+        type: Sequelize.DATE,
+        allowNull: false,
+        unique: false,
+        defaultValue: Sequelize.NOW
+    },
 }, {
     timestamps: false,
     freezeTableName: true
 });
 
 module.exports = UserGame;
-*/

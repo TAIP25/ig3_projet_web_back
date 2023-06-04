@@ -1,4 +1,3 @@
-
 const User = require('./User');
 const UserGame = require('./UserGame');
 const UserStat = require('./UserStat');

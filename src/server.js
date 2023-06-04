@@ -15,7 +15,7 @@ const app = require("./app");
 const sequelize = require("./database/sequelize");
 
 // Charge les models de la base de données pour que Sequelize puisse les synchroniser
-require("./models/newModels/index");
+require("./models/index");
 
 // Voici le port sur lequel le serveur va écouter
 const PORT = process.env.PORT || 7778;
@@ -45,14 +45,14 @@ sequelize
 })
 .then(() => {
     // Créer les tables de la base de données pour les crops
-    const Crop = require("./models/newModels/Crop");
+    const Crop = require("./models/Crop");
     Crop.bulkCreate([
         {
             cropName: "Navet",
             cropPNGName: "turnip",
             cropTier: 1,
             cropMoneyPrice: 250,
-            cropTokenPrice: 5,
+            cropTokenPrice: 105,
             cropMoneyEarning: 10,
             cropAmountEarningOneToken: 200
         },

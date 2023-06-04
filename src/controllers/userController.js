@@ -1,20 +1,9 @@
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 
-const { User, UserGame, UserCrop } = require('../models/newModels/index');
+const { User, UserGame, UserCrop } = require('../models/index');
 
 require('dotenv').config();
-
-//const validator = require('validator');
-
-// TODO:
-// vérifier l'email etc., sécuriser les cookies et les cors.
-
-// status 200 = OK
-// status 201 = Created
-// status 400 = Bad Request
-// status 409 = Conflict
-// status 500 = Internal Server Error
 
 // Fonction qui permet de créer un cookie d'authentification
 createAuthCookie = (res, userId) => {
@@ -23,34 +12,36 @@ createAuthCookie = (res, userId) => {
     const secret = process.env.JWT_SECRET;
     const token = jwt.sign(payload, secret, { expiresIn: '1w' });
 
-    //TODO: {secure: true,httpOnly: true, sameSite: 'strict' (sameSite n'est pas obligatoire si le cors est bien configuré)}
-    // Envoi du cookie avec le token d'authentification
-    /* DEV config
-    res.cookie('authcookie', token, {
-        httpOnly: true,
-        secure: true,
-        //domain: process.env.COOKIE_DOMAIN,
-        path: '/',
-        sameSite: 'None',
-    });
-    */
-    res.cookie('authcookie', token, {
-        httpOnly: true,
-        secure: true,
-        //domain: process.env.COOKIE_DOMAIN,
-        path: '/',
-        sameSite: 'None',
-    });
+    return token;
 }
 
 
 exports.createUser = (req, res, next) => {
+
+    const isValidEmail = (email) => {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
+    };
 
     // Vérification des champs obligatoires
     if(req.body.email === ""  || req.body.password === "") {
         return res.status(400).json({
             severity: "error",
             result: "Les champs obligatoires ne sont pas remplis, veuillez réessayer"
+        });
+    }
+
+    else if (req.body.password.length < 5) {
+        return res.status(400).json({
+          severity: "error",
+          result: "Le mot de passe doit comporter au moins 5 caractères",
+        });
+    }      
+
+    else if (!isValidEmail(req.body.email)) {
+        return res.status(400).json({
+            severity: "error",
+            result: "L'adresse email n'est pas valide",
         });
     }
 
@@ -72,33 +63,29 @@ exports.createUser = (req, res, next) => {
             // Création d'un UserGame
             return UserGame.create({
                 userGameId: result.dataValues.userId,
-                userGameName: "Joueur",
-                userGameCropLimit: 100,
                 userGameMoney: 10000,
-                userGameToken: 1000
+                userGameToken: 50000
             }).then(() => {
                 return result;
             });
-        })
-        .then(result => {
-            // Création d'un cookie d'authentification
-            createAuthCookie(res, result.dataValues.userId);
-
-            return result;
         })
         .then(result => {
             if(result.dataValues.isAdmin){
                 console.log("Compte administrateur créé avec succès");
                 return res.status(201).json({
                     severity: "success",
-                    result: "Compte administrateur créé avec succès"
+                    result: "Compte administrateur créé avec succès",
+                    admin: result.dataValues.isAdmin,
+                    token: createAuthCookie(res, result.dataValues.userId)
                 });
             }
             else{
                 console.log("Compte utilisateur créé avec succès");
                 return res.status(201).json({
                     severity: "success",
-                    result: "Compte utilisateur créé avec succès"
+                    result: "Compte utilisateur créé avec succès",
+                    admin: result.dataValues.isAdmin,
+                    token: createAuthCookie(res, result.dataValues.userId)
                 });
             }
         })
@@ -162,10 +149,10 @@ exports.loginUser = (req, res, next) => {
             }
             return bcrypt.compare(req.body.password, user.dataValues.password)
             .then(correctPassword => {
-                return { correctPassword: correctPassword, userId: user.dataValues.userId };
+                return { correctPassword: correctPassword, userId: user.dataValues.userId, isAdmin: user.dataValues.isAdmin };
             });
         })
-        .then(({correctPassword, userId}) => {
+        .then(({correctPassword, userId, isAdmin}) => {
             if(!correctPassword){
                 // On rejette la promesse, le catch s'occupe de renvoyer l'erreur
                 return Promise.reject({
@@ -175,11 +162,11 @@ exports.loginUser = (req, res, next) => {
                 });
             }
             else{
-                // Création d'un token d'authentification
-                createAuthCookie(res, userId);
                 return res.status(200).json({
                     severity: "success",
-                    result: "Connexion réussie"
+                    result: "Connexion réussie",
+                    admin: isAdmin,
+                    token: createAuthCookie(res, userId)
                 });
             }
         })

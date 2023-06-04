@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize');
 
-const sequelize = require('../../database/sequelize');
+const sequelize = require('../database/sequelize');
 
 const UserCrop = sequelize.define('UserCrop', {
     userCropId: {

@@ -1,7 +1,9 @@
-const { UserGame, Crop, UserCrop } = require('../models/newModels/index');
+const { UserGame, Crop, UserCrop } = require('../models/index');
 const Sequelize = require('sequelize');
 
 const tick = 6000;
+const multMoney = 15;
+const multToken = 50;
 
 const differenceTick = (lastRequest, date) => {
     return Math.floor((date - lastRequest)/tick);
@@ -122,16 +124,15 @@ exports.updateUserGame = (req, res, next) => {
 
         return Promise.all([moneyEarnedPerTick, tokenEarnedPerTick])
         .then( () => {
-            result.userGame.userGameMoney = parseInt(result.userGame.userGameMoney) + differenceTick(new Date(result.userGame.userGameLastRequest), date)*moneyEarnedPerTick*10;
-            result.userGame.userGameToken = parseInt(result.userGame.userGameToken) + differenceTick(new Date(result.userGame.userGameLastRequest), date)*tokenEarnedPerTick*25;
+            result.userGame.userGameMoney = parseInt(result.userGame.userGameMoney) + differenceTick(new Date(result.userGame.userGameLastRequest), date)*moneyEarnedPerTick*multMoney;
+            result.userGame.userGameToken = parseInt(result.userGame.userGameToken) + differenceTick(new Date(result.userGame.userGameLastRequest), date)*tokenEarnedPerTick*multToken;
             result.userGame.userGameLastRequest = parseInt(date - leftTick(new Date(result.userGame.userGameLastRequest), date));
             return result.userGame.save().then( userGame => {
                 return {
                     userGame: userGame,
                     crops: result.crops,
-                    moneyEarnedPerTick: moneyEarnedPerTick*10,
-                    tokenEarnedPerTick: tokenEarnedPerTick*25
-
+                    moneyEarnedPerTick: moneyEarnedPerTick*multMoney,
+                    tokenEarnedPerTick: tokenEarnedPerTick*multToken
                 };
             });
         });
