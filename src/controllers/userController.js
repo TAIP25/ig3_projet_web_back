@@ -168,8 +168,8 @@ exports.loginUser = (req, res, next) => {
                 return res.cookie('authcookie', token, { 
                     httpOnly: true,
                     secure: true,
-                    path: '/',
-                    sameSite: 'None',
+                    maxAge: COOKIE_MAX_AGE,
+                    sameSite: 'lax',
                 })
                 .status(200).json({
                     severity: "success",
