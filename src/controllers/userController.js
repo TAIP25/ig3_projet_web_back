@@ -74,20 +74,32 @@ exports.createUser = (req, res, next) => {
         .then(result => {
             if(result.dataValues.isAdmin){
                 console.log("Compte administrateur créé avec succès");
-                return res.status(201).json({
+                token = createAuthCookie(res, result.dataValues.userId);
+                return res.cookie('authcookie', token, { 
+                    httpOnly: true,
+                    secure: true,
+                    path: '/',
+                    sameSite: 'none',
+                })
+                .status(201).json({
                     severity: "success",
                     result: "Compte administrateur créé avec succès",
-                    admin: result.dataValues.isAdmin,
-                    token: createAuthCookie(res, result.dataValues.userId)
+                    admin: result.dataValues.isAdmin
                 });
             }
             else{
                 console.log("Compte utilisateur créé avec succès");
-                return res.status(201).json({
+                token = createAuthCookie(res, result.dataValues.userId);
+                return res.cookie('authcookie', token, { 
+                    httpOnly: true,
+                    secure: true,
+                    path: '/',
+                    sameSite: 'none',
+                })
+                .status(201).json({
                     severity: "success",
                     result: "Compte utilisateur créé avec succès",
-                    admin: result.dataValues.isAdmin,
-                    token: createAuthCookie(res, result.dataValues.userId)
+                    admin: result.dataValues.isAdmin
                 });
             }
         })
@@ -168,7 +180,6 @@ exports.loginUser = (req, res, next) => {
                 return res.cookie('authcookie', token, { 
                     httpOnly: true,
                     secure: true,
-                    //maxAge: COOKIE_MAX_AGE,
                     path: '/',
                     sameSite: 'none',
                 })
