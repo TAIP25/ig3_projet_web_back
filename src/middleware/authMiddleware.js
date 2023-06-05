@@ -6,7 +6,7 @@ const secret = process.env.JWT_SECRET;
 const authMiddleware = (req, res, next) => {
     // Récupère le token d'authentification
     const token = req.cookies.authcookie;
-    console.log(req.cookies);
+    console.log(req);
     // Vérifie si le token est valide
     jwt.verify(token, secret, (err, decodedToken) => {
         if (err) {
