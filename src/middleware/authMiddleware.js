@@ -10,6 +10,7 @@ const authMiddleware = (req, res, next) => {
     /*
     authcookie=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1MjQ1YmQyYi0wYjI3LTRkMzktOGI4NC0yOWQ0NjMzNjNkYWEiLCJpYXQiOjE2ODU5MzAzMTYsImV4cCI6MTY4NjUzNTExNn0.eBlUPqaOOXeRheX51DAqE_qYFexI7bWyLNfcwvCtRSI; isAdmin=true
     */
+    console.log(req.headers.cookie)
     const token = req.headers.cookie.split('=')[1].split(';')[0];
     console.log(token);
 
