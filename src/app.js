@@ -10,15 +10,14 @@ require('dotenv').config();
 const app = express();
 
 // Ajoute des headers pour sécuriser l'application
-app.use(helmet());
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(cookieParser());
-
 app.use(cors({
     origin: process.env.CLIENT_URL,
     credentials: true,
 }));
+app.use(helmet());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
 
 // Utilise les routes pour l'authentification
 app.use('/auth', require('./routes/authRoutes'));
