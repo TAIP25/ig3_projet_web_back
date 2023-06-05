@@ -5,6 +5,8 @@ const { User, UserGame, UserCrop } = require('../models/index');
 
 require('dotenv').config();
 
+const COOKIE_MAX_AGE = 1000 * 60 * 60 * 24 * 15 // 15 days in milliseconds
+
 // Fonction qui permet de créer un cookie d'authentification
 createAuthCookie = (res, userId) => {
     // Création d'un token d'authentification
@@ -162,11 +164,17 @@ exports.loginUser = (req, res, next) => {
                 });
             }
             else{
-                return res.status(200).json({
+                token = createAuthCookie(res, userId);
+                return res.cookie('authcookie', token, { 
+                    httpOnly: true,
+                    secure: true,
+                    path: '/',
+                    sameSite: 'None',
+                })
+                .status(200).json({
                     severity: "success",
                     result: "Connexion réussie",
-                    admin: isAdmin,
-                    token: createAuthCookie(res, userId)
+                    admin: isAdmin
                 });
             }
         })
